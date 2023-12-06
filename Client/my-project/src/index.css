@@ -1,0 +1,17 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500&display=swap');
+  
+    font-family: '[ font-[Ubuntu]]', sans-serif;
+
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+
+}

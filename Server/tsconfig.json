@@ -1,0 +1,21 @@
+{
+    "compilerOptions": {
+        "esModuleInterop": true,
+        "strictNullChecks": true,
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "target": "ES6",
+        "baseUrl": "src",
+        "outDir": "dist",
+        "sourceMap": true,
+        "noImplicitAny": true
+    },
+    "types": ["node", "express"],
+    "include": [
+        "src/**/*.ts", "src/controllers/userController",
+        
+       
+        
+],
+    "exclude": ["node_modules"]
+}
