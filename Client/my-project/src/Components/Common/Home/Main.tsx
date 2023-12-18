@@ -5,8 +5,14 @@ import Footer from "./Footer";
 import Location from "../Auth/Location";
 import { IonIcon } from '@ionic/react';
 import {shareSocialOutline,heartOutline,ellipsisHorizontal} from 'ionicons/icons';
+import CPost from "../post/CPost";
 
-const Main = () => {
+interface MainProps {
+  post: boolean;
+  setPost: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+const Main = (props:MainProps) => {
 
  
   const [isDesktop, setDesktop] = useState(window.innerWidth < 768);
@@ -22,19 +28,23 @@ const Main = () => {
 
   return (
     <>
-    <div className="bg-custom-gray font-[Ubuntu]">
+       {props.post  && <CPost {...props} /> }
+    <div className={` ${props.post ? 'blur-sm':'bg-custom-gray '}  font-[Ubuntu]`}>
 <Location/>
-      <main className=" h-full flex justify-center w-full">
+      <main className=" h-full flex justify-center w-full relative">
         <Minipro/>
-        <div className="bg-[#ffff]  w-full md:w-[65%]  lg:w-[42%]  h-full shadow-md mt-80 md:mt-10 rounded-lg mr:0 md:mr-4  ">
+        
+        <div className={` ${props.post? 'overflow-hidden':""} bg-[#ffff]  w-full md:w-[65%]  lg:w-[42%]  h-full shadow-md mt-80 md:mt-10 rounded-lg mr:0 md:mr-4  `}>
           <div className="flex gap-x-1 p-4 ">
             <div className="flex ">
+         
               <img
                 className="rounded-full w-[65px]  h-[65px] shrink-0"
                 src={require("../../Assets/images/IMG_20221212_195813_456.jpg")}
                 alt="profile"
               />
             </div>
+   
 
             <div className="mt-3 ">
               <h5 className="text-xl font-semibold px-4">Sooraj Hari</h5>
@@ -79,7 +89,8 @@ const Main = () => {
             </div>
             
           </div>
-    
+{/* } */}
+  
       <p className="p-3">
         Lorem ipsum dolor, sit amet consectetur adipisicing elit. Tempore, commodi. Maxime assumenda
         autem in ad. Omnis, perspiciatis? Doloremque inventore nesciunt perferendis, rem perspiciatis delectus accusantium eum eius veritatis, quasi necessitatibus!

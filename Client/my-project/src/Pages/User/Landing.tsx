@@ -13,7 +13,7 @@ const Homeservice = () => {
          <Home logged={""}/>
          <div className='flex'>
        
-         <Main/>
+         {/* <Main/> */}
      
          </div>
      

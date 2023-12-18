@@ -14,6 +14,7 @@ import MyFallbackComponent from "./Pages/User/MyFallbackComponent";
 import {ErrorBoundary} from 'react-error-boundary'
 import Profile from "./Components/Common/profile/Profile";
 import Edit from "./Components/Common/profile/Edit";
+import CPost from "./Components/Common/post/CPost";
 
 const App:React.FC = ()=>{
   
@@ -30,6 +31,7 @@ const App:React.FC = ()=>{
           <Route path="/sub_describe" element={<Subdescribe />} />
           <Route path="/otp" element={<OTPForm />} />
           <Route path="/login" element={<Login />} />
+          {/* <Route path="/createpost" element={<CPost/>} /> */}
           <Route path="/profile" element={<PrivateRoutes component={Profile} />} />
           <Route path="/edit-profile" element={<PrivateRoutes component={Edit} />} />
           {/* <Route path="/home" element={<  Homee />} /> */}

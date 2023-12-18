@@ -11,7 +11,7 @@ import {
 const Requirment = () => {
   return (
     <div>
-      <div className="mt-5 border border-gray-200 shadow-lg p-2 ">
+      <div className="mt-5 border font-[Ubuntu] border-gray-200 shadow-lg p-2 ">
         <p className="text-2xl text-black px-2">
           Home Construction required in 1-3 months
         </p>

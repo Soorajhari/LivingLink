@@ -3,7 +3,7 @@ import React from "react";
 const About = () => {
   return (
     <div>
-      <div className="mt-8">
+      <div className="mt-8 font-[Ubuntu]">
         <p className="font-bold text-xl">Role</p>
         <p className="text-lg font-normal">Service Provider</p>
       </div>

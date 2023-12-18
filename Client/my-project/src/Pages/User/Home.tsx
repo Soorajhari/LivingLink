@@ -5,6 +5,7 @@ import { useAppSelector } from '../../Redux/hook';
 import instance from '../../Utils/axios';
 // import {User} from '../../Routes/routes'
 import axios from 'axios';
+import CPost from '../../Components/Common/post/CPost'
 import {  signInData } from "../../Redux/userLogin";
 import { useAppDispatch } from "../../Redux/hook";
 
@@ -48,10 +49,9 @@ useEffect(() => {
     <div>
          <Home logged={logged} />
          <div className='flex'>
-       
-         <Main/>
-     
+         {/* <Main/> */}
          </div>
+         {/* <CPost/> */}
      
     </div>
   )

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { IonIcon } from "@ionic/react";
+import {Link} from 'react-router-dom'
 
 import {
   settingsOutline,
@@ -36,9 +37,11 @@ const Profile = () => {
         <div>
           <div className="flex  gap-x-10">
             <p className="text-2xl font-base mt-2">Sooraj Hari</p>
+            <Link  to={"/edit-profile"}>
             <button className="p-1.5 bg-gray-200 text-lg text-black font-semibold shadow-md w-[120px] rounded-lg">
               Edit Profile
             </button>
+            </Link>
             <IonIcon onClick={()=>{setModal(!modal)}} className="text-3xl mt-1" icon={settingsOutline}></IonIcon>
           </div>
           {modal && <Logout/>}

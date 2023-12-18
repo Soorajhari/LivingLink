@@ -20,12 +20,15 @@ import {
 import { notificationsOutline, closeOutline, menu } from "ionicons/icons";
 
 import { Link } from "react-router-dom";
+import Main from "../Home/Main";
 
 interface logPrpos {
   logged: string;
 }
 
+
 const Home = (props: logPrpos) => {
+  const[post,setPost]=useState<boolean>(false)
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const userData = localStorage.getItem("userDetails");
   if (userData) {
@@ -83,7 +86,7 @@ const Home = (props: logPrpos) => {
             <div className="flex items-center gap-3 md:gap-4 lg:gap-6">
               <IonIcon
                 className="md:text-3xl text-2xl text-orange-500 cursor-pointer"
-                icon={addCircleOutline}
+                icon={addCircleOutline} onClick={()=>{setPost(true)}}
               ></IonIcon>
             </div>
 
@@ -143,6 +146,7 @@ const Home = (props: logPrpos) => {
               ></IonIcon>
               <li className="text-xl lg:text-base md:text-xs">Home</li>
             </div>
+            <Link to={"/profile"}>
             <div className="flex items-center gap-x-2 py-3 md:py-0">
               <IonIcon
                 icon={personCircleOutline}
@@ -150,6 +154,7 @@ const Home = (props: logPrpos) => {
               ></IonIcon>
               <li className="text-xl lg:text-base  md:text-xs">Profile</li>
             </div>
+            </Link>
             <div className="flex items-center gap-x-2 py-3 md:py-0">
               <IonIcon
                 icon={imageOutline}
@@ -248,7 +253,8 @@ const Home = (props: logPrpos) => {
         </div>
       )}
 
-      {/* <Main/> */}
+<Main post={post} setPost={setPost} />
+
     </>
   );
 };
