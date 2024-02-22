@@ -11,12 +11,22 @@ import { request } from "http";
 import { UserRequest, otpRequest, userData } from "../../interfaces/user";
 import dotenv from "dotenv";
 dotenv.config();
+import { v2 as cloudinary } from 'cloudinary'
 
+cloudinary.config({
+    cloud_name: process.env.CLOUD_NAME,
+    api_key: process.env.API_KEY,
+    api_secret: process.env.API_SECRET
+  });
 
 const createPost= async (req:Request,res:Response):Promise<void>=>{
     try{
-  const postdata=req.body.text
-  console.log(postdata)
+        const textData = req.body.text;
+        console.log('Text data:', textData);
+        // console.log(req.body.img)
+        console.log(req.body.file)
+        const cloudinaryResponse = await cloudinary.uploader.upload(req.body.file , { resource_type: 'auto' });
+        console.log('Cloudinary response:', cloudinaryResponse);
     }catch(error){
         console.log(error.message)
     }

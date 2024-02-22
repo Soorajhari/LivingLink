@@ -1,0 +1,13 @@
+.post{
+    
+
+    /* color: #f83030; */
+    height: 28px;
+    padding-left: 10px;
+    text-decoration: none;
+    background-image: url('../../Assets/images/add.png');
+    /* background-repeat: repeat-x; */
+    border-radius: 5px; /*up to date browsers support this, but you can add prefixes if you want*/
+
+    border: 0;
+  }
