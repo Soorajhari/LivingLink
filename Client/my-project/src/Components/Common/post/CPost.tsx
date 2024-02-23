@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import instance from "../../../Utils/axios";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
+import  {useAppSelector } from "../../../Redux/hook";
 
 // import './style.css'
 
@@ -20,6 +21,8 @@ const CPost = (props: postProps) => {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [videoPreview, setVideoPreview] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const userInfo=useAppSelector((state)=>state.authLogin.userLogin)
+  console.log(userInfo.id)
   console.log(value);
   const handleIconClick = () => {
     if (inputRef.current) {
@@ -31,7 +34,8 @@ const CPost = (props: postProps) => {
   console.log(videoPreview);
   const body = {
     text: value,
-    file:file
+    file:file,
+    id:userInfo.id
     // img: imagePreview,
     // video:videoPreview
   };
@@ -49,7 +53,7 @@ const CPost = (props: postProps) => {
       //   }
       // }
       const response = await instance.post("/post", body);
-      console.log(response);
+      console.log(response.data);
     } catch (error) {
       console.log(error);
     }

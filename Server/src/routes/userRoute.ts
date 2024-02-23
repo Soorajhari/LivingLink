@@ -11,6 +11,7 @@ Router.post('/login',userControllers.userLogin)
 Router.get('/details/:id', verify, userControllers.userData);
 Router.post('/refresh',userControllers.generateAcessToken)
 Router.post('/post',postControllers.createPost)
+Router.get('/post-data',postControllers.getPostData)
 
 
 

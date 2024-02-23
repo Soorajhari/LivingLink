@@ -1,17 +1,10 @@
-import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
-import { userModel } from "../../models/users";
-import { otpModel } from "../../models/otp";
+
 import { Request, Response } from "express";
-import { promises } from "dns";
-import { error } from "console";
-import * as nodemailer from "nodemailer";
-import { RequiredPathKeys } from "mongoose/types/inferschematype";
-import { request } from "http";
-import { UserRequest, otpRequest, userData } from "../../interfaces/user";
 import dotenv from "dotenv";
 dotenv.config();
 import { v2 as cloudinary } from 'cloudinary'
+import { postModel } from "../../models/post";
+import { userModel } from "../../models/users";
 
 cloudinary.config({
     cloud_name: process.env.CLOUD_NAME,
@@ -22,17 +15,59 @@ cloudinary.config({
 const createPost= async (req:Request,res:Response):Promise<void>=>{
     try{
         const textData = req.body.text;
-        console.log('Text data:', textData);
-        // console.log(req.body.img)
+        const id=req.body.id
+        console.log(id)
         console.log(req.body.file)
+        const user= await userModel.findOne({_id:id})
+        console.log(user)
         const cloudinaryResponse = await cloudinary.uploader.upload(req.body.file , { resource_type: 'auto' });
-        console.log('Cloudinary response:', cloudinaryResponse);
+        console.log(cloudinaryResponse)
+        const url=cloudinaryResponse.url
+        console.log(url) 
+
+        const post=new postModel({
+            user:id,
+            text:textData,
+            Url:url
+        })
+
+        post.save()
+        res.json({status:"ok",message:"post added successfully"})
+
     }catch(error){
         console.log(error.message)
+        res.json({status:"error",message:"An error occured"})
     }
 
 }
 
+
+const getPostData=async(req:Request,res:Response)=>{
+    try{
+        const postData=await postModel.find().populate('user')
+        console.log(postData)
+        // const userData=await userModel.findById({_id:postData.user})
+        if(postData){
+            res.json({status:"ok",Data:postData})
+        }
+    }catch(error){
+        console.log(error.message)
+        res.json({status:"error",message:"An error occured"})
+    }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
 export ={
-    createPost
+    createPost,getPostData
 }

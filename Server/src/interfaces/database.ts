@@ -1,3 +1,4 @@
+import { Types } from "mongoose";
 
 
 export interface Otp {
@@ -22,3 +23,9 @@ export  interface User{
     createdAt:Date
  }
  
+ export interface Post{
+    user:Types.ObjectId,
+    text:string|number,
+    Url:string
+
+ }

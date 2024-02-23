@@ -39,11 +39,6 @@ const authLogin = createSlice({
       state.error = action.payload;
     },
     signInData: (state, action) => {
-      // const LoginInfo={
-      //   ...state.userLogin,
-      //   ...action.payload.userLogin
-        
-      // }
       state.userLogin = action.payload
      
     
