@@ -1,41 +1,23 @@
 import React from "react";
+import { useAppSelector } from "../../../Redux/hook";
 
 const Post = () => {
+  const profileInfo = useAppSelector((state) => state.ProfileData);
+  console.log(profileInfo);
   return (
     <div>
-      <div className="flex font-[Ubuntu] flex-wrap mt-2">
+    <div className="flex font-[Ubuntu] flex-wrap mt-2">
+      {profileInfo.posts.map((item) => (
         <img
+          key={item._id}
           className="w-[350px] h-[400px] p-2"
-          src={require("../../Assets/images/crop-architect-opening-blueprint.jpg")}
+          src={item.Url}
           alt=""
         />
-        <img
-          className="w-[350px] h-[400px] p-2"
-          src={require("../../Assets/images/crop-architect-opening-blueprint.jpg")}
-          alt=""
-        />
-        <img
-          className="w-[350px] h-[400px] p-2"
-          src={require("../../Assets/images/crop-architect-opening-blueprint.jpg")}
-          alt=""
-        />
-        <img
-          className="w-[350px] h-[400px] p-2"
-          src={require("../../Assets/images/crop-architect-opening-blueprint.jpg")}
-          alt=""
-        />
-        <img
-          className="w-[350px] h-[400px] p-2"
-          src={require("../../Assets/images/crop-architect-opening-blueprint.jpg")}
-          alt=""
-        />
-        <img
-          className="w-[350px] h-[400px] p-2"
-          src={require("../../Assets/images/crop-architect-opening-blueprint.jpg")}
-          alt=""
-        />
-      </div>
+      ))}
     </div>
+  </div>
+  
   );
 };
 

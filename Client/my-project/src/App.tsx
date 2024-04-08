@@ -15,6 +15,11 @@ import {ErrorBoundary} from 'react-error-boundary'
 import Profile from "./Components/Common/profile/Profile";
 import Edit from "./Components/Common/profile/Edit";
 import CPost from "./Components/Common/post/CPost";
+import Message from "./Components/Common/message/Message";
+import Otherprofiles from "./Components/Common/profile/Otherprofiles";
+import Unfollow from "./Components/Common/profile/Unfollow";
+import Followers from "./Components/Common/post/Followers";
+import Comment from "./Components/Common/Home/Comment";
 
 const App:React.FC = ()=>{
   
@@ -34,6 +39,10 @@ const App:React.FC = ()=>{
           {/* <Route path="/createpost" element={<CPost/>} /> */}
           <Route path="/profile" element={<PrivateRoutes component={Profile} />} />
           <Route path="/edit-profile" element={<PrivateRoutes component={Edit} />} />
+          <Route path="/message" element={<Message/>} />
+          <Route path="/followers" element={<Followers/>} />
+          {/* <Route path="/comment" element={<Comment/>} /> */}
+          <Route path="/other-profiles" element={<PrivateRoutes component={Otherprofiles} />} />
           {/* <Route path="/home" element={<  Homee />} /> */}
          
         </Routes>

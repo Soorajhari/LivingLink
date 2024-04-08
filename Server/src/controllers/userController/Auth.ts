@@ -28,7 +28,7 @@ const creatUser = async (
   console.log(salt);
 
   const hashPassword = bcrypt.hashSync(password, salt);
-  console.log(hashPassword);
+  // console.log(hashPassword);
 
   try {
     const user_email = await userModel.findOne({ email: email });

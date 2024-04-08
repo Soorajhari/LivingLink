@@ -1,6 +1,4 @@
 import { createSlice,PayloadAction } from "@reduxjs/toolkit";
-import { RootState } from "./store";
-import axios from "../Utils/axios";
 
 export interface User {
   loading: boolean;

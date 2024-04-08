@@ -1,6 +1,12 @@
 import React from "react";
-import { IonIcon } from '@ionic/react';
-import {bagOutline,homeOutline,locateOutline,bookmarkOutline} from 'ionicons/icons';
+import { IonIcon } from "@ionic/react";
+import {
+  bagOutline,
+  homeOutline,
+  locateOutline,
+  bookmarkOutline,
+} from "ionicons/icons";
+import { Link } from "react-router-dom";
 const Minipro = () => {
   return (
     <>
@@ -20,25 +26,28 @@ const Minipro = () => {
           </div>
         </div>
         <div className="mt-14 flex justify-center font-semibold text-xl">
-          <h5>Sooraj Hari</h5>
+          <Link to="/profile" className="group">
+            <h5 className="cursor-pointer group-hover:underline">
+              Sooraj Hari
+            </h5>
+          </Link>
         </div>
         <div className="flex md:block justify-center gap-4 md:gap-0">
-        <div className="flex gap-x-3 justify-center mt-3">
-          <div className="flex gap-2 md:gap-1">
-            <IonIcon className="text-base" icon={bagOutline}></IonIcon>
-            <h6 className=" text-sm">Civil Engineer</h6>
-          </div>
+          <div className="flex gap-x-3 justify-center mt-3">
+            <div className="flex gap-2 md:gap-1">
+              <IonIcon className="text-base" icon={bagOutline}></IonIcon>
+              <h6 className=" text-sm">Civil Engineer</h6>
+            </div>
 
-          <div className="flex gap-2 md:gap-1">
-            <IonIcon className="text-base" icon={homeOutline}></IonIcon>
-            <h6 className=" text-sm">Self-Employed</h6>
+            <div className="flex gap-2 md:gap-1">
+              <IonIcon className="text-base" icon={homeOutline}></IonIcon>
+              <h6 className=" text-sm">Self-Employed</h6>
+            </div>
           </div>
-          
-        </div>
-        <div className="flex justify-center mt-2 gap-2 md:gap-0">
-          <IonIcon  className="text-base" icon={locateOutline}></IonIcon>
-          <h6 className=" text-sm">Alappuzha</h6>
-        </div>
+          <div className="flex justify-center mt-2 gap-2 md:gap-0">
+            <IonIcon className="text-base" icon={locateOutline}></IonIcon>
+            <h6 className=" text-sm">Alappuzha</h6>
+          </div>
         </div>
         <hr className="mt-3" />
         <div className="mx-5 flex justify-center md:justify-normal md:block gap-x-5 md:gap-0 font-semibold text-gray-600">

@@ -62,7 +62,7 @@ const Login: React.FC = () => {
               }
             );
             setProfile(response.data);
-            // sendDetailsToServer()
+          
           }
         } catch (error) {
           console.log(error);

@@ -19,8 +19,6 @@ const Profile = () => {
 
   const [content, setContent] = useState("posts");
   const[modal,setModal]=useState(false)
-
-
   return (
     <div className={`${modal?`   blur-[-30px] opacity-75`:`bg-[#ffff]`}`}>
 

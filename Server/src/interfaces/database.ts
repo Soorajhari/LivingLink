@@ -26,6 +26,34 @@ export  interface User{
  export interface Post{
     user:Types.ObjectId,
     text:string|number,
-    Url:string
+    Url:string,
+    createdAt:Date
+    likes:Types.ObjectId[]
+    comments: Comment[];
 
  }
+
+ export interface Message{
+    member:Types.Array<any>
+ }
+
+
+ 
+ export interface Converstaion{
+   chatId:string,
+   senderId:string,
+   text:string
+   
+ }
+
+ interface CommentReply {
+   user: Types.ObjectId;
+   content: string;
+ }
+ 
+ interface Comment {
+   user: Types.ObjectId;
+   content: string;
+   replies: CommentReply[];
+ }
+ 

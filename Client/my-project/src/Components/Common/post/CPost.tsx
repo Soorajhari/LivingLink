@@ -1,66 +1,86 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { IonIcon } from "@ionic/react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import instance from "../../../Utils/axios";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import  {useAppSelector } from "../../../Redux/hook";
+import { useAppSelector } from "../../../Redux/hook";
+import { postData } from "../../../Routes/routes";
+
+// import Spin from "../Auth/Spin";
 
 // import './style.css'
 
 import { closeOutline, imagesOutline } from "ionicons/icons";
+import Spin from "../Auth/Spin";
+import { setLoading } from "../../../Redux/userLogin";
+import { loadavg } from "os";
 
 interface postProps {
   post: boolean;
   setPost: React.Dispatch<React.SetStateAction<boolean>>;
+  setData: React.Dispatch<React.SetStateAction<any>>;
 }
 
 const CPost = (props: postProps) => {
+  const navigate = useNavigate();
   const [value, setValue] = useState<string | number>("");
   const [file, setFile] = useState<Blob | string | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [videoPreview, setVideoPreview] = useState<string | null>(null);
+  const [Loading, setLoading] = useState<boolean>(false);
   const inputRef = useRef<HTMLInputElement>(null);
-  const userInfo=useAppSelector((state)=>state.authLogin.userLogin)
-  console.log(userInfo.id)
+  const userInfo = useAppSelector((state) => state.authLogin.userLogin);
+  console.log(userInfo.id);
   console.log(value);
   const handleIconClick = () => {
     if (inputRef.current) {
       inputRef.current.click();
     }
   };
-  // console.log(file)
-  // console.log(imagePreview)
+  
   console.log(videoPreview);
   const body = {
     text: value,
-    file:file,
-    id:userInfo.id
-    // img: imagePreview,
-    // video:videoPreview
+    file: file,
+    id: userInfo.id,
+
   };
+
+  const fetchData = async () => {
+    try {
+      const response = await instance.get(postData);
+      props.setData(response.data.Data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   const handleClick = async (e: React.FormEvent) => {
     try {
+      setLoading(true);
+
       e.preventDefault();
-      // const formdata = new FormData();
-      // formdata.append("text", String(value))
-      // if (file) {
-      //   if (file instanceof Blob) {
-      //     formdata.append("file", file);
-      //     console.log(formdata.append("file", file))
-      //   } else {
-      //     formdata.append("file", new Blob([file as string]));
-      //   }
-      // }
       const response = await instance.post("/post", body);
-      console.log(response.data);
+      setTimeout(() => {
+        setLoading(false);
+      }, 1500);
+
+      if (response.data.status == "ok") {
+        fetchData();
+        props.setPost(false);
+      }
     } catch (error) {
       console.log(error);
     }
   };
   const isButtonDisabled = !value && !file;
   return (
-    <div className="w-full h-ful z-20 absolute left-0 top-0 font-[ubuntu] ">
+    <div className="w-full h-ful z-20 absolute left-0 top-0 font-[ubuntu]  ">
       <div className="flex justify-center min-h-screen  items-center shadow-2xl">
         <div className="w-[600px] h-[680px] bg-[#ffff]    flex flex-col fixed  rounded-xl">
           <div className="flex justify-center ">
@@ -115,29 +135,29 @@ const CPost = (props: postProps) => {
                     ></IonIcon>
                   </div>
                 )}
-                  {videoPreview && (
-                    <div>
- <video  controls>
-                        <source
-                          src={videoPreview}
-                          type="video/mp4"
-                          className=" top-0 left-0 absolute object-cover w-[550px]"
-                        />
-                           Your browser does not support the video tag
-                      </video>
-                         <IonIcon
-                         onClick={() => {
-                           setVideoPreview(null);
-                           setFile(null);
-                         }}
-                         className="absolute z-20 right-0 top-0 cursor-pointer text-[40px]"
-                         icon={closeOutline}
-                       ></IonIcon>
-                    </div>
+                {/* <div className="z-10 absolute"> */}
 
-
-                     
-                    )}
+                {/* </div> */}
+                {videoPreview && (
+                  <div>
+                    <video controls>
+                      <source
+                        src={videoPreview}
+                        type="video/mp4"
+                        className=" top-0 left-0 absolute object-cover w-[550px]"
+                      />
+                      Your browser does not support the video tag
+                    </video>
+                    <IonIcon
+                      onClick={() => {
+                        setVideoPreview(null);
+                        setFile(null);
+                      }}
+                      className="absolute z-20 right-0 top-0 cursor-pointer text-[40px]"
+                      icon={closeOutline}
+                    ></IonIcon>
+                  </div>
+                )}
                 <div className="flex flex-col">
                   <input
                     ref={inputRef}
@@ -159,8 +179,7 @@ const CPost = (props: postProps) => {
                           const reader = new FileReader();
                           reader.onloadend = () => {
                             setImagePreview(reader.result as string);
-                          setFile(reader.result as string);
-
+                            setFile(reader.result as string);
                           };
                           reader.readAsDataURL(selectedFile);
                         } else if (isVideo) {
@@ -171,7 +190,7 @@ const CPost = (props: postProps) => {
                             setVideoPreview(reader.result as string);
                             setFile(reader.result as string);
                           };
-                  
+
                           reader.readAsDataURL(selectedFile);
                         }
                       } else {
@@ -211,7 +230,7 @@ const CPost = (props: postProps) => {
                 }}
                 disabled={isButtonDisabled}
               >
-                post
+                {Loading ? <Spin /> : "post"}
               </button>
             </div>
           </div>

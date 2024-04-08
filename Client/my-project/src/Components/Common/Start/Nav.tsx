@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import {  googleLogout} from "@react-oauth/google";
-// import {HomeProps}  from '../../../Pages/User/Home'
+import React, { useState, useEffect } from "react";
+import instance from "../../../Utils/axios";
+import useFetch from "../../../hooks/useFetch";
 
 import { IonIcon } from "@ionic/react";
 import {
@@ -26,29 +26,75 @@ interface logPrpos {
   logged: string;
 }
 
+interface UserData {
+  firstName: string;
+  lastName: string;
+  role: string;
+  subrole: string;
+  _id: string;
+}
 
-const Home = (props: logPrpos) => {
-  const[post,setPost]=useState<boolean>(false)
+const Home = () => {
+
+ const {handleGet}=useFetch()
+  const [click, setClick] = useState<boolean>(false);
+  const [post, setPost] = useState<boolean>(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const userData = localStorage.getItem("userDetails");
-  if (userData) {
-    var firstLogin = JSON.parse(userData);
-    var firstName =firstLogin && firstLogin.firstName ? firstLogin.firstName : "";
-  }
 
-  const handleLogout = async () => {
-    localStorage.clear();
-    googleLogout();
-    window.location.href = "/login";
-  };
+  const userDetailsString = localStorage.getItem("userDetails");
+  let userData: any;
+  
+  if (userDetailsString !== null) {
+    userData = JSON.parse(userDetailsString);
+    console.log(userData)
+  } else {
+   
+    console.error("User details not found in local storage.");
+  }
+  
 
   const onToggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
+  const handleInputFocus = () => {
+    setClick(true);
+  };
+
+  const [data, setData] = useState<UserData[]>([]);
+  const [error, setError] = useState(null);
+  const [value, setValue] = useState<string>();
+  console.log(data);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setValue(value);
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await instance.get(`/fetch-user?q=${value}`);
+        console.log(response.data);
+        setData(response.data.searchData);
+      } catch (error){
+        console.log(error);
+      }
+    };
+
+    const delayDebounceFn = setTimeout(() => {
+      if (value?.trim()) {
+        fetchData();
+      } else {
+        setData([]);
+      }
+    }, 500);
+
+    return () => clearTimeout(delayDebounceFn);
+  }, [value]);
 
   return (
     <>
-      <nav className="bg-[#ffff] p-3 shadow-xl sticky top-0 z-10">
+      <nav className="bg-[#ffff] p-3 shadow-xl sticky top-0 z-10 font-[Ubuntu]">
         <div className=" flex items-center justify-between  md:w-[85%] md:mx-auto ">
           <div className="  flex justify-between gap-x-5 lg:gap-x-7">
             <div className="text-2xl  md:hidden">
@@ -70,32 +116,88 @@ const Home = (props: logPrpos) => {
             </div>
           </div>
           <div className="m-3 relative  md:flex hidden items-center flex-1">
+            <div className="flex  flex-1 flex-col" >
             <input
               type="search"
+              onFocus={handleInputFocus}
               className="rounded p-1.5 outline-none bg-white flex-1 border border-black"
-              placeholder="Search Design and Products"
+              placeholder="Search Design and Products...."
+              onChange={(e) => handleInputChange(e)}
             />
-            <div className="absolute right-3">
+            <div className="absolute mt-1 right-3">
               <IonIcon
                 icon={searchOutline}
                 className="text-white text-3xl bg-black w-7 h-7 rounded flex items-center"
               ></IonIcon>
             </div>
+            </div>
+            {click && (
+              <div className="absolute  top-10 z-20 left-0 w-[800px] shadow-lg">
+                <div className="bg-[#ffff]  relative h-[500px] ">
+                  <div></div>
+                  <div className="">
+                    {data && data.length > 0 ? (
+                      <div className="flex flex-col cursor-pointer">
+                        {data.map((item) => (
+                          <div key={item._id} className="flex gap-x-4 p-3   hover:bg-gray-300"
+                           onClick={(e)=>handleGet(e,item._id)}
+                           >
+                            <IonIcon
+                              className="text-3xl mt-2"
+                              icon={searchOutline}
+                            ></IonIcon>
+                            <div className="mt-2 flex gap-x-3 text-[22px] font-medium">
+                              <h4>
+                                {item?.firstName}
+                                {item?.lastName}
+                              </h4>
+                              <p className="text-sm font-light mt-1 text-gray-500">
+                                {item?.role},{item?.subrole}
+                              </p>
+                              <div className="w-[35px] h-[35px]">
+                                <img
+                                  className="rounded-full"
+                                  src={require("../../Assets/images/IMG_20221212_195813_456.jpg")}
+                                  alt=""
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <div className="font-bold flex  items-center justify-center text-4xl">
+                        No data available
+                      </div>
+                    )}
+                  </div>
+                  <div className="absolute right-0 top-0">
+                    <IonIcon
+                      onClick={() => setClick(false)}
+                      className="text-4xl cursor-pointer"
+                      icon={closeOutline}
+                    ></IonIcon>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
           <div className="flex  items-center gap-x-3">
             <div className="flex items-center gap-3 md:gap-4 lg:gap-6">
               <IonIcon
                 className="md:text-3xl text-2xl text-orange-500 cursor-pointer"
-                icon={addCircleOutline} onClick={()=>{setPost(true)}}
+                icon={addCircleOutline}
+                onClick={() => {
+                  setPost(true);
+                }}
               ></IonIcon>
             </div>
 
             <div className="flex items-center gap-2 md:gap-3 lg:gap-4">
-              {/* <ion-icon class="md:text-2xl text-xl" name="person"></ion-icon> */}
-              {props.logged && firstName ? (
+              { userData? (
                 <Link to="/profile">
                   <span className="font-semibold text-lg lg:text-xl cursor-pointer">
-                    {firstName}
+                    {userData.firstName}
                   </span>
                 </Link>
               ) : (
@@ -105,14 +207,6 @@ const Home = (props: logPrpos) => {
                   </span>
                 </Link>
               )}
-              {/* {firstLogin &&
-                <button
-                  className="p-2 font-semibold text-white w-[90px] bg-[#3981b6] rounded-2xl"
-                  onClick={handleLogout}
-                >
-                  Logout
-                </button>
-} */}
             </div>
             <div className="flex items-center gap-3 md:gap-4 lg:gap-6">
               <IonIcon
@@ -126,8 +220,9 @@ const Home = (props: logPrpos) => {
           <input
             type="search"
             className="rounded p-1.5 outline-none bg-white flex-1 border border-black"
-            placeholder="Search Design and Products"
+            placeholder="Search Design and Products..."
           />
+
           <div className="absolute right-3">
             <IonIcon
               icon={searchOutline}
@@ -147,13 +242,13 @@ const Home = (props: logPrpos) => {
               <li className="text-xl lg:text-base md:text-xs">Home</li>
             </div>
             <Link to={"/profile"}>
-            <div className="flex items-center gap-x-2 py-3 md:py-0">
-              <IonIcon
-                icon={personCircleOutline}
-                className="text-[#3189b6] lg:text-2xl md:text-lg rounded-full "
-              ></IonIcon>
-              <li className="text-xl lg:text-base  md:text-xs">Profile</li>
-            </div>
+              <div className="flex items-center gap-x-2 py-3 md:py-0">
+                <IonIcon
+                  icon={personCircleOutline}
+                  className="text-[#3189b6] lg:text-2xl md:text-lg rounded-full "
+                ></IonIcon>
+                <li className="text-xl lg:text-base  md:text-xs">Profile</li>
+              </div>
             </Link>
             <div className="flex items-center gap-x-2 py-3 md:py-0">
               <IonIcon
@@ -251,10 +346,9 @@ const Home = (props: logPrpos) => {
             </div>
           </ul>
         </div>
-      )}
+       )} 
 
-<Main post={post} setPost={setPost} />
-
+      <Main post={post} setPost={setPost} />
     </>
   );
 };
