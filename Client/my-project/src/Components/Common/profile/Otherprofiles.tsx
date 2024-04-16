@@ -21,6 +21,8 @@ import instance from "../../../Utils/axios";
 import Unfollow from "./Unfollow";
 import useFetch from "../../../hooks/useFetch";
 import { ProfileData } from "../../../Redux/ProfileDetails";
+import { error } from "console";
+import { useNavigate } from "react-router-dom";
 
 interface UserData {
   id?: string;
@@ -35,6 +37,7 @@ interface followData {
 }
 
 const Otherprofiles = () => {
+  const navigate=useNavigate()
   const { handleGet } = useFetch();
   const [content, setContent] = useState("posts");
   const [data, setData] = useState<Item[]>([]);
@@ -122,6 +125,21 @@ const Otherprofiles = () => {
     }
   };
 
+
+const handleMessage= async(e: React.MouseEvent<HTMLButtonElement>, senderId: string|undefined)=>{
+  e.preventDefault()
+try{
+const response= await instance.post("/chat",{senderId:senderId,userId:userData?.id})
+console.log(response.data)
+if(response.data.status=="ok"){
+navigate("/message")
+}
+
+}catch(error){
+  console.log(error)
+}
+  }
+
   return (
     <div
       className={`${
@@ -170,11 +188,11 @@ const Otherprofiles = () => {
                     follow
                   </button>
                 )}
-                <Link to={"/message"}>
-                  <button className="p-1.5 bg-gray-200 text-lg text-black font-semibold shadow-md w-[120px] rounded-lg">
-                    Message
+                {/* <Link to={"/message"}> */}
+                  <button className="p-1.5 bg-gray-200 text-lg text-black font-semibold shadow-md w-[120px] rounded-lg" onClick={(e)=>handleMessage(e,profileInfo.user?._id)}>
+                    Message  
                   </button>
-                </Link>
+                {/* </Link> */}
                 <IonIcon
                   onClick={() => {
                     setModal(!modal);

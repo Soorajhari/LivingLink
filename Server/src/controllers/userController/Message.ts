@@ -3,7 +3,7 @@ import { Request, Response } from "express";
 
 const addMessage = async (req: Request, res: Response) => {
   const { chatId, senderId, text } = req.body;
-  console.log(req.body)
+  // console.log(req.body);
   const message = new conversationModel({
     chatId,
     senderId,
@@ -18,17 +18,38 @@ const addMessage = async (req: Request, res: Response) => {
   }
 };
 
-const getMessage=async(req:Request,res:Response)=>{
-    const senderId=req.params.id;
-    console.log(senderId)
-    try{
-      const result=await conversationModel.find({senderId});
-      console.log(result)
-      res.status(200).json(result)
-    }catch(error){
+const getMessage = async (req: Request, res: Response) => {
+  const id= req.query.q;
+  // console.log(id + 'sreee')
+  try {
+    const result = await conversationModel.find({chatId:id  });
+    // console.log(result)
+    res.status(200).json({status:"ok",chat:result});
+  } catch (error) {}
+};
 
-    }
+const lastMessage=async(req: Request, res: Response)=>{
+  try{
+  const reciverId=req.body.reciverId
+  console.log(reciverId)
+  }catch(error){
+    console.log(error.message);
+    res.json({ status: "error", message: "An error occured" });
+  }
 }
-export={
-    addMessage,getMessage
-}
+
+
+
+
+
+
+
+
+
+
+
+export = {
+  addMessage,
+  getMessage,
+  lastMessage
+};

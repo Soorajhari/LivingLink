@@ -15,7 +15,6 @@ import { closeOutline, imagesOutline } from "ionicons/icons";
 import Spin from "../Auth/Spin";
 import { setLoading } from "../../../Redux/userLogin";
 import { loadavg } from "os";
-
 interface postProps {
   post: boolean;
   setPost: React.Dispatch<React.SetStateAction<boolean>>;

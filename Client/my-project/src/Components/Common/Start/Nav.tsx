@@ -9,6 +9,7 @@ import {
   trendingUpOutline,
   helpCircleOutline,
   searchOutline,
+  chatbubbleEllipses,
 } from "ionicons/icons";
 import {
   homeOutline,
@@ -280,13 +281,17 @@ const Home = () => {
               <li className="text-xl lg:text-base  md:text-xs">Trending</li>
             </div>
 
-            <div className="flex items-center gap-x-2 py-3 md:py-0">
+<Link to="/message">
+<div className="flex items-center gap-x-2 py-3 md:py-0">
               <IonIcon
-                icon={helpCircleOutline}
+                icon={chatbubbleEllipses}
                 className="lg:text-2xl md:text-lg"
               ></IonIcon>
               <li className="text-xl lg:text-base  md:text-sm">Questions</li>
             </div>
+</Link>
+           
+
             <div className="flex items-center gap-x-2 py-3 md:py-0">
               <IonIcon
                 icon={trailSignOutline}

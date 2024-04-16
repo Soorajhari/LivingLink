@@ -92,7 +92,7 @@ const Describe = () => {
   return (
     <>
      {error && <Error error={"An error ocuured please try again"} />} 
-      <div className="bg-custom-gray w-full min-h-screen flex justify-center  q">
+      <div className="bg-custom-gray  font-[Ubuntu] w-full min-h-screen flex justify-center  q">
     
         <div className=" w-[600px]  bg-[#fff]  my-auto h-[900px] rounded-2xl shadow-xl ">
         
